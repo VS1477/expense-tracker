@@ -40,4 +40,35 @@ const adddata = async (req,res)=>
 
 };
 
-module.exports = {getdata,adddata};
+const editdata = async (req,res)=>
+{
+    try{
+        await transactionmodel.findOneAndUpdate(
+            {
+                _id:req.body.transactionId
+            },
+            req.body.payload
+        );
+        res.status(200).send("Edit successfully");
+
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(500).json(error);
+    }
+}
+
+const deletedata = async (req,res)=>
+{
+    try{
+            await transactionmodel.findOneAndDelete({_id:req.body.transactionId});
+            res.status(200).json("Transaction Deleted");
+    }
+    catch(error){
+        console.log(error);
+        req.status(500).json(error);
+    }
+}
+
+module.exports = {getdata,adddata,editdata,deletedata};

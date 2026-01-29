@@ -2,6 +2,8 @@ import React,{useState,useEffect} from "react";
 import axios from "axios";
 import moment from "moment";
 import {Form, Input, message, Modal, Select, Table,DatePicker} from "antd";
+import {UnorderedListOutlined, AreaChartOutlined,EditOutlined,DeleteOutlined} from '@ant-design/icons'
+import { Analytics } from "./analytics";
 const {RangePicker} = DatePicker;
 export const Home = ()=>{
     const [showmodal,setShowmodal] = useState(false);
@@ -10,6 +12,9 @@ export const Home = ()=>{
     const [frequency,setFrequency] = useState('7');
     const [selectdate,setSelectdate] = useState([]);
     const [type,setType] = useState('all');
+    const [viewData,setViewData] = useState('table');
+    const [editable,setEditable] = useState(null);
+    
     const getalltransaction = async ()=>
     {
         try{
@@ -53,6 +58,18 @@ export const Home = ()=>{
         },
         {
             title:"Actions",
+            render : (text,record)=>(
+                <div>
+                    <EditOutlined onClick={()=>
+                        {
+                            setEditable(record);
+                            setShowmodal(true);
+
+                        }
+                    }/>
+                    <DeleteOutlined className="mx-2" onClick={()=>handledelete(record)}/>
+                </div>
+            )
         }
     ]
 
@@ -62,14 +79,44 @@ export const Home = ()=>{
 
     },[frequency,selectdate,type]);
 
+    const handledelete  = async (record) =>
+    {
+        try{
+            await axios.post(`${api_url}/deletedata`, { 
+                    transactionId : record._id
+                 });
+                message.success("Deleted Successfully");
+        }
+        catch(error)
+        {
+            console.log(error);
+            message.error("Unable to Delete");
+        }
+    }
+
     const handleSubmit = async (values)=>
     {
         try{
             const user = JSON.parse(localStorage.getItem("user"));
             console.log(user);
-            await axios.post(`${api_url}/adddata`, { ...values, userid: user._id });
-            message.success("Transaction Added Successfully");
+            if(editable)
+            {
+                await axios.post(`${api_url}/editdata`, { 
+                    payload:{
+                        ...values,
+                        userId : user._id,
+                    },
+                    transactionId:editable._id,
+
+                 });
+                message.success("Transaction Edited Successfully");
+            }
+            else{
+                await axios.post(`${api_url}/adddata`, { ...values, userid: user._id });
+                message.success("Transaction Added Successfully");
+            }
             setShowmodal(false);
+            setEditable(null);
         }
         catch(err)
         {
@@ -99,16 +146,23 @@ export const Home = ()=>{
                 </Select>
                 {frequency === "Custom" && <RangePicker value={selectdate} onChange={(values)=>setSelectdate(values)}/>}
             </div>
+            <div className="switch-icons">
+                    <UnorderedListOutlined className={`mx-2 ${viewData === 'table' ? 'active-icon' : 'inactive-icon'}`} onClick={()=>setViewData('table')}/>
+                    <AreaChartOutlined className={`mx-2 ${viewData === 'analytics' ? 'active-icon' : 'inactive-icon'}`} onClick={()=>setViewData('analytics')}/>
+
+                </div>
             <div>
+                
                 <button className="btn btn-primary" onClick={()=>setShowmodal(true)}>Add New</button>
             </div>
         </div>
         <div className="content">
-            <Table columns={columns} dataSource={alltransaction}></Table>
+            {viewData === 'table' ? <Table columns={columns} dataSource={alltransaction}></Table> : <Analytics alltransaction={alltransaction}/>}
+            
         </div>
 
-        <Modal title="Add transaction" open={showmodal} onCancel={()=>setShowmodal(false)} footer={false}>
-        <Form layout="vertical" onFinish={handleSubmit}>
+        <Modal title={editable ? "Edit Transaction" : "Add Transaction"} open={showmodal} onCancel={()=>setShowmodal(false)} footer={false}>
+        <Form layout="vertical" onFinish={handleSubmit} initialValues={editable}>
             <Form.Item label="Amount" name="amount">
                 <Input type="text"/>
             </Form.Item>
