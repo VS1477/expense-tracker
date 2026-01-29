@@ -25,6 +25,9 @@ app.use(morgan("dev"));
 app.use(router);
 app.use(routes);
 
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "OK" });
+});
 
 
 
