@@ -1,37 +1,32 @@
 import React, { useContext } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { HomeOutlined, LogoutOutlined } from "@ant-design/icons";
 import Mainauth from "./auth";
-export const Header = () => {
 
-    const {isloggedin} = useContext(Mainauth);
-    const location = useLocation();
+export const Header = () => {
+    const { isloggedin, user } = useContext(Mainauth);
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
-            <div className="container-fluid">
-
-                <h4>ExpanseTracker</h4>
-
-                <div className="collapse navbar-collapse">
-                    <ul className="navbar-nav ms-auto">
-
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/home">
-                                Home
-                            </NavLink>
-
-                            {
-                                isloggedin && (
-                                    <NavLink className="nav-link" to="/logout">
-                                        Logout
-                                    </NavLink>
-                                )
-                            }
-                        </li>
-
-                    </ul>
-                </div>
+        <header className="app-header">
+            <div className="header-inner">
+                <div className="brand">Expense<span>Tracker</span></div>
+                <nav className="nav-links">
+                    {isloggedin && user?.name && (
+                        <span className="nav-user">Hi, {user.name}</span>
+                    )}
+                    <NavLink
+                        className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                        to="/home"
+                    >
+                        <HomeOutlined /> Home
+                    </NavLink>
+                    {isloggedin && (
+                        <NavLink className="nav-link logout-link" to="/logout">
+                            <LogoutOutlined /> Logout
+                        </NavLink>
+                    )}
+                </nav>
             </div>
-        </nav>
+        </header>
     );
 };

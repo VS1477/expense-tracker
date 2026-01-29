@@ -20,7 +20,7 @@ const App = ()=>
           element:<Navigate to={"/register"}/>
         },
         {
-          path:"/Home",
+          path:"/home",
           element: <ProtectedRoutes><Home/></ProtectedRoutes>
         },
         

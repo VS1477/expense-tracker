@@ -20,8 +20,8 @@ export const Analytics = (props)=>
 
 
 
-    return(
-        <>
+    return (
+        <div className="analytics-section">
         <div className="row m-3">
             <div className="col-md-4">
                 <div className="card">
@@ -76,7 +76,7 @@ export const Analytics = (props)=>
                     })
                 }
 
-            </div>.<div className="col-md-4">
+            </div><div className="col-md-4">
                 <h4>Categorywise Expense</h4>
                 {
                     categories.map(category=>{
@@ -98,8 +98,7 @@ export const Analytics = (props)=>
 
             </div>
         </div>
-        
-        </>
+        </div>
     )
 
 }

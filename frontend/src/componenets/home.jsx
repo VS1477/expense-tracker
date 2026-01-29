@@ -79,13 +79,14 @@ export const Home = ()=>{
 
     },[frequency,selectdate,type]);
 
-    const handledelete  = async (record) =>
+    const handledelete = async (record) =>
     {
         try{
             await axios.post(`${api_url}/deletedata`, { 
                     transactionId : record._id
                  });
-                message.success("Deleted Successfully");
+            message.success("Deleted Successfully");
+            getalltransaction();
         }
         catch(error)
         {
@@ -98,7 +99,6 @@ export const Home = ()=>{
     {
         try{
             const user = JSON.parse(localStorage.getItem("user"));
-            console.log(user);
             if(editable)
             {
                 await axios.post(`${api_url}/editdata`, { 
@@ -117,6 +117,7 @@ export const Home = ()=>{
             }
             setShowmodal(false);
             setEditable(null);
+            getalltransaction();
         }
         catch(err)
         {
@@ -124,7 +125,7 @@ export const Home = ()=>{
         }
         
     }
-    return(
+    return (
         <>
         <div className="filters">
             <div>
@@ -147,18 +148,16 @@ export const Home = ()=>{
                 {frequency === "Custom" && <RangePicker value={selectdate} onChange={(values)=>setSelectdate(values)}/>}
             </div>
             <div className="switch-icons">
-                    <UnorderedListOutlined className={`mx-2 ${viewData === 'table' ? 'active-icon' : 'inactive-icon'}`} onClick={()=>setViewData('table')}/>
-                    <AreaChartOutlined className={`mx-2 ${viewData === 'analytics' ? 'active-icon' : 'inactive-icon'}`} onClick={()=>setViewData('analytics')}/>
-
+                    <UnorderedListOutlined className={viewData === 'table' ? 'active-icon' : 'inactive-icon'} onClick={()=>setViewData('table')}/>
+                    <AreaChartOutlined className={viewData === 'analytics' ? 'active-icon' : 'inactive-icon'} onClick={()=>setViewData('analytics')}/>
                 </div>
             <div>
                 
                 <button className="btn btn-primary" onClick={()=>setShowmodal(true)}>Add New</button>
             </div>
         </div>
-        <div className="content">
+        <div className="home-content">
             {viewData === 'table' ? <Table columns={columns} dataSource={alltransaction}></Table> : <Analytics alltransaction={alltransaction}/>}
-            
         </div>
 
         <Modal title={editable ? "Edit Transaction" : "Add Transaction"} open={showmodal} onCancel={()=>setShowmodal(false)} footer={false}>

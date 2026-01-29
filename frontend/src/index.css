@@ -1,54 +1,376 @@
-*{
+/* Design tokens */
+:root {
+  --color-bg: #0f172a;
+  --color-bg-elevated: #1e293b;
+  --color-bg-card: #ffffff;
+  --color-surface: #f8fafc;
+  --color-primary: #0d9488;
+  --color-primary-hover: #0f766e;
+  --color-primary-light: rgba(13, 148, 136, 0.12);
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-income: #059669;
+  --color-expense: #dc2626;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+  --radius: 12px;
+  --radius-lg: 16px;
+}
+
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-.content{
-  height: 100vh;
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: var(--color-text);
+  min-height: 100vh;
 }
 
-.register-page{
+/* Layout */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Auth pages */
+.auth-page {
+  min-height: calc(100vh - 180px);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-elevated) 100%);
 }
 
-.login-page{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
+.auth-card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 420px;
+}
 
-} 
+.auth-card .auth-brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
 
-.filters{
+.auth-card .auth-brand span {
+  color: var(--color-primary);
+}
+
+.auth-card h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.auth-card .auth-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+.auth-card .ant-form-item-label > label {
+  font-weight: 500;
+}
+
+.auth-card .ant-input,
+.auth-card .ant-input-affix-wrapper {
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.auth-card .btn-primary {
+  width: 100%;
+  height: 44px;
+  font-weight: 600;
+  border-radius: 8px;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.auth-card .btn-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.auth-card .auth-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.auth-card .auth-footer a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-card .auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+.app-header {
+  background: var(--color-bg-card);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-header .header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 20px;
-  box-shadow: 0 0 3px grey;
 }
 
+.app-header .brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
 
-/* ant ICONS */
-.anticon svg{
-  font-size: 20px;
+.app-header .brand span {
+  color: var(--color-primary);
+}
+
+.app-header .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-header .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.app-header .nav-link:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.app-header .nav-link.active {
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.app-header .nav-user {
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-right: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.app-header .nav-link.logout-link {
+  color: var(--color-expense);
+}
+
+.app-header .nav-link.logout-link:hover {
+  background: rgba(220, 38, 38, 0.08);
+  color: var(--color-expense);
+}
+
+/* Footer */
+.app-footer {
+  background: var(--color-bg);
+  color: #94a3b8;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  font-size: 0.875rem;
+  margin-top: auto;
+}
+
+.app-footer .text-cenetr {
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Home – filters */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--color-bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--color-border);
+}
+
+.filters h6 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.filters .ant-select,
+.filters .ant-picker {
+  min-width: 140px;
+}
+
+.filters .switch-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg-card);
+}
+
+.filters .switch-icons .anticon {
+  padding: 0.25rem;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.filters .switch-icons .active-icon,
+.filters .switch-icons .anticon:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.filters .btn-primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.filters .btn-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* Home content (table/analytics) */
+.home-content {
+  background: var(--color-bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.content .ant-table-wrapper {
+  background: var(--color-bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.content .ant-table-thead > tr > th {
+  background: var(--color-surface) !important;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.content .ant-table-tbody .anticon {
+  color: var(--color-text-muted);
+  margin-right: 0.5rem;
+}
+
+.content .ant-table-tbody .anticon:hover {
+  color: var(--color-primary);
+}
+
+/* Analytics */
+.analytics-section {
+  padding: 0 0.25rem;
+}
+
+.analytics-section .card {
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.analytics-section .card-header {
+  background: var(--color-surface);
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.analytics-section .card-body h5 {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.analytics-section .text-success {
+  color: var(--color-income) !important;
+}
+
+.analytics-section .text-danger {
+  color: var(--color-expense) !important;
+}
+
+.analytics-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+/* Ant Design overrides */
+.ant-progress-circle-path {
+  stroke: var(--color-primary);
+}
+
+/* Icons */
+.anticon svg {
+  font-size: 18px;
   cursor: pointer;
 }
 
 .active-con {
-  color: black;
+  color: var(--color-primary);
 }
 
 .inactive-icon {
-  color : gray;
+  color: var(--color-text-muted);
 }
 
-
-.switch-icons{
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 10px 15px;
+.inactive-icon:hover {
+  color: var(--color-primary);
 }
