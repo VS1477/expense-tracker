@@ -14,6 +14,7 @@ export const Home = ()=>{
     const [type,setType] = useState('all');
     const [viewData,setViewData] = useState('table');
     const [editable,setEditable] = useState(null);
+    const [form] = Form.useForm();
     
     const getalltransaction = async ()=>
     {
@@ -125,6 +126,18 @@ export const Home = ()=>{
         }
         
     }
+
+    useEffect(() => {
+        if (editable) {
+            form.setFieldsValue({
+                ...editable,
+                date: moment(editable.date).format("YYYY-MM-DD"),
+            });
+        } else {
+            form.resetFields();
+        }
+    }, [editable, form]);
+
     return (
         <>
         <div className="filters">
@@ -153,15 +166,22 @@ export const Home = ()=>{
                 </div>
             <div>
                 
-                <button className="btn btn-primary" onClick={()=>setShowmodal(true)}>Add New</button>
+                <button className="btn btn-primary" onClick={()=>{
+                    setEditable(null);
+                    setShowmodal(true);
+                }}>Add New</button>
             </div>
         </div>
         <div className="home-content">
             {viewData === 'table' ? <Table columns={columns} dataSource={alltransaction}></Table> : <Analytics alltransaction={alltransaction}/>}
         </div>
 
-        <Modal title={editable ? "Edit Transaction" : "Add Transaction"} open={showmodal} onCancel={()=>setShowmodal(false)} footer={false}>
-        <Form layout="vertical" onFinish={handleSubmit} initialValues={editable}>
+        <Modal title={editable ? "Edit Transaction" : "Add Transaction"} open={showmodal} onCancel={()=>{
+            setShowmodal(false);
+            setEditable(null);
+            form.resetFields();
+        }} footer={false}>
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
             <Form.Item label="Amount" name="amount">
                 <Input type="text"/>
             </Form.Item>

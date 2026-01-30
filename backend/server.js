@@ -15,9 +15,23 @@ const app = express();
 
 
 //middlewares
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://expense-tracker-ten-chi-91.vercel.app" // Vercel deployment
+];
+
 app.use(cors({
-    origin:"http://localhost:5173",
-    credentials:true
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like Postman or server-to-server)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true); // origin allowed
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
 }));
 // parse incoming JSON before hitting routes
 app.use(express.json());

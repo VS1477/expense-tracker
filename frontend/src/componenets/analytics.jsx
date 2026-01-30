@@ -23,7 +23,7 @@ export const Analytics = (props)=>
     return (
         <div className="analytics-section">
         <div className="row m-3">
-            <div className="col-md-4">
+            <div className="col-md-6">
                 <div className="card">
                     <div className="card-header">
                         Total Transactions : {totaltransaction}
@@ -39,7 +39,7 @@ export const Analytics = (props)=>
                 </div>
                 
             </div>
-            <div className="col-md-4">
+            <div className="col-md-6">
                 <div className="card">  
                     <div className="card-header">
                         Money Movement : {totalturnover}
@@ -57,7 +57,7 @@ export const Analytics = (props)=>
             </div>
         </div>
         <div className="row mt-3">
-            <div className="col-md-4">
+            <div className="col-md-6">
                 <h4>Categorywise Income</h4>
                 {
                     categories.map(category=>{
@@ -76,7 +76,7 @@ export const Analytics = (props)=>
                     })
                 }
 
-            </div><div className="col-md-4">
+            </div><div className="col-md-6">
                 <h4>Categorywise Expense</h4>
                 {
                     categories.map(category=>{
