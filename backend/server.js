@@ -33,6 +33,7 @@ app.use(cors({
   },
   credentials: true
 }));
+
 // parse incoming JSON before hitting routes
 app.use(express.json());
 app.use(morgan("dev"));
