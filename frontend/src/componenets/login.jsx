@@ -1,20 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Input, message } from "antd";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 import Mainauth from "./auth";
+import Spinner from "./spinner";
 
 const Login = ()=>
 {
     const navigate = useNavigate();
     const { login, isloggedin } = useContext(Mainauth);
     const api_url = import.meta.env.VITE_API_URL;
+    const [loading,setLoading] = useState(false);
     
     async function submithandler(value)
     {   
         try
         {
+            setLoading(true);
             const response = await axios.post(`${api_url}/login`,value);
+            setLoading(false);
             message.success("User Logined Successfully");
             // Use login function from context to update auth state
             // Backend returns jwttoken, not token
@@ -23,6 +27,7 @@ const Login = ()=>
         }
         catch(err)
         {
+            setLoading(false);
             message.error("There was an issue during login");
         }
     }
@@ -37,6 +42,7 @@ const Login = ()=>
 
     return (
         <div className="auth-page">
+            {loading && <Spinner/>}
             <div className="auth-card">
                 <p className="auth-brand">Expense<span>Tracker</span></p>
                 <h2>Welcome back</h2>
